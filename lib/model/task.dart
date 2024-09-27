@@ -5,11 +5,13 @@ class Task {
   String content;
   DateTime date;
   String time;
-  bool location;
+  String location;
   final List<String> host;
   String? note;
   String status; // Trạng thái công việc
   String? approver; // Người thực hiện kiểm duyệt
+  bool isStarred; // Đảm bảo thuộc tính này đã được định nghĩa
+
 
   // Các giá trị trạng thái
   static const String statusTaoMoi = "tạo mới";
@@ -27,6 +29,7 @@ class Task {
     this.note,
     this.status = statusTaoMoi, // Gán giá trị mặc định
     this.approver,
+    this.isStarred = false,
   });
 
   // Tạo đối tượng Task từ JSON
