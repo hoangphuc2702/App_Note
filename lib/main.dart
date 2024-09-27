@@ -1,3 +1,4 @@
+import 'package:note_app/screens/home_screens.dart';
 import 'package:note_app/screens/signin_screens.dart';
 import 'package:flutter/material.dart';
 
@@ -18,12 +19,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'App Note',
-      // Bạn có thể chọn sử dụng home hoặc initialRoute
       home: WelcomeScreens(),
       // initialRoute: Welcome_Screens.routeName, // Nếu bạn muốn sử dụng initialRoute, đảm bảo routeName có giá trị phù hợp
       routes: {
         WelcomeScreens.routeName: (context) => WelcomeScreens(),
         LoginScreen.routeName: (context) => LoginScreen(),
+        TaskListScreen.routeName: (context) => TaskListScreen(),
       },
     );
   }

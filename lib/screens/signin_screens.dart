@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/screens/home_screens.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blueAccent,
+                  color: Colors.deepPurple,
                 ),
               ),
             ),
@@ -50,7 +51,7 @@ class LoginScreen extends StatelessWidget {
             // Nút Đăng nhập
             ElevatedButton(
               onPressed: () {
-                // Xử lý đăng nhập
+                Navigator.pushNamed(context, TaskListScreen.routeName);
               },
               child: Text('Đăng nhập'),
               style: ElevatedButton.styleFrom(
@@ -71,8 +72,6 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-
-            // Liên kết đến trang đăng ký
             TextButton(
               onPressed: () {
                 // Chuyển hướng đến trang đăng ký
