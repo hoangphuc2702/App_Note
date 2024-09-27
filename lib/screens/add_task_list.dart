@@ -154,10 +154,21 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
               decoration: InputDecoration(labelText: 'Ghi chú'),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _addTask,
-              child: Text('Lưu Công Việc'),
+            SizedBox(
+              width: 50,
+              child: ElevatedButton(
+                onPressed: _addTask,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  backgroundColor: Colors.deepPurple,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: Text('Lưu', style: TextStyle(color: Colors.white)),
+              ),
             ),
+
           ],
         ),
       ),
