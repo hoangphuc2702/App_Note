@@ -165,4 +165,68 @@ class API {
       rethrow;
     }
   }
+
+  Future<String> registerUser(String name, String email, String password, String urlImage) async {
+    final uri = Uri.parse('$baseUrl/user/insertUser');
+
+    try {
+      final body = json.encode({
+        'name': name,
+        'mail': email,
+        'pass': password,
+        'urlImage': urlImage,
+      });
+
+      final res = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body,
+      );
+
+      if (res.statusCode == 201) {
+        final Map<String, dynamic> jsonData = json.decode(res.body);
+        print(jsonData);
+        return "true"; // Đăng ký thành công
+      } else {
+        print("Failed with status code: ${res.statusCode}, body: ${res.body}");
+        return "false"; // Đăng ký không thành công
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
+
+  Future<String> loginUser(String email, String password) async {
+    final uri = Uri.parse('$baseUrl/user/login'); // Endpoint đăng nhập
+
+    try {
+      final body = json.encode({
+        'mail': email,
+        'pass': password,
+      });
+
+      final res = await http.post(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: body,
+      );
+
+      if (res.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(res.body);
+        print(jsonData);
+        return "true"; // Đăng nhập thành công
+      } else {
+        print("Failed with status code: ${res.statusCode}, body: ${res.body}");
+        return "false"; // Đăng nhập không thành công
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow; // Ném lại ngoại lệ
+    }
+  }
 }

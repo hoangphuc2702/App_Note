@@ -1,8 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/screens/task_list.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class LoginScreen extends StatelessWidget {
+import '../data/api.dart';
+
+class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  API api = API();
+
+  Future<void> _login() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      _showAddProgramFailDialog("Login fail", "All fields are required.");
+      return;
+    }
+
+    final res = await api.loginUser(email, password);
+
+    if (res == "true") {
+      // Nếu đăng nhập thành công, chuyển đến TaskListScreen
+      Navigator.pushNamed(context, TaskListScreen.routeName);
+    } else {
+      _showAddProgramFailDialog("Login fail", res);
+    }
+  }
+
+  void _showAddProgramFailDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +84,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               width: 300, // Giới hạn chiều rộng
               child: TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Email',
@@ -45,6 +99,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               width: 300, // Giới hạn chiều rộng
               child: TextField(
+                controller: _passwordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Mật khẩu',
@@ -57,9 +112,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(
               width: 250, // Giới hạn chiều rộng
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, TaskListScreen.routeName);
-                },
+                onPressed: _login,
                 child: Text(
                   'Đăng nhập',
                   style: TextStyle(color: Colors.white),
@@ -88,20 +141,19 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Column(
+              children: [
+                Text.rich(TextSpan(
+                  text: 'Chưa có tài khoản? ',
+                  style: TextStyle(color: Colors.black),
                   children: [
-                    Text.rich(TextSpan(
-                      text: 'Chưa có tài khoản? ',
-                      style: TextStyle(color: Colors.black),
-                      children: [
-                        TextSpan(
-                          text: 'Đăng ký',
-                          style: TextStyle(
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ],
+                    TextSpan(
+                      text: 'Đăng ký',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
                     ),
-                  ),
+                  ],
+                )),
               ],
             ),
           ],
