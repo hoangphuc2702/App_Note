@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../model/data_local/user_reference.dart';
 import '../model/task.dart';
 
 
@@ -219,6 +220,13 @@ class API {
       if (res.statusCode == 200) {
         final Map<String, dynamic> jsonData = json.decode(res.body);
         print(jsonData);
+
+        // Lưu ID và thông tin người dùng vào SharedPreferences
+        String userId = jsonData['user']['_id']; // Lấy ID người dùng
+        await UserPreferences.setUserId(userId); // Lưu ID
+        await UserPreferences.setUser(jsonData['user']); // Lưu thông tin người dùng
+
+
         return "true"; // Đăng nhập thành công
       } else {
         print("Failed with status code: ${res.statusCode}, body: ${res.body}");

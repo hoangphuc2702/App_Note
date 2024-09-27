@@ -1,6 +1,9 @@
 import 'package:note_app/screens/signin_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:note_app/screens/task_list.dart';
+
+import '../model/data_local/user_reference.dart';
 
 class WelcomeScreens extends StatefulWidget {
   const WelcomeScreens({Key? key}) : super(key: key);
@@ -11,6 +14,22 @@ class WelcomeScreens extends StatefulWidget {
 }
 
 class _WelcomeScreensState extends State<WelcomeScreens> {
+  @override
+  void initState() {
+    super.initState();
+    _checkLoginStatus();
+  }
+
+  // Kiểm tra trạng thái đăng nhập
+  Future<void> _checkLoginStatus() async {
+    String? userId = await UserPreferences.getUserId();
+
+    if (userId != null && userId.isNotEmpty) {
+      // Nếu đã đăng nhập, chuyển hướng đến màn hình TaskList
+      Navigator.pushReplacementNamed(context, TaskListScreen.routeName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

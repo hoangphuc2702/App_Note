@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/screens/task_list.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import '../data/api.dart';
 
