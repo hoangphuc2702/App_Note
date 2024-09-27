@@ -43,7 +43,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Image.asset(
                 'assets/images/logo.gif',
-                height: 150,
+                height: 140,
                 fit: BoxFit.cover,
               ),
             ),
@@ -51,7 +51,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
 
             Text(
               'Quản lý thời gian và nhiệm vụ một cách hiệu quả',
-              style: GoogleFonts.fredoka(
+              style: GoogleFonts.nunito(
                 fontSize: 24,
                 color: Colors.grey.shade700,
               ),
@@ -72,7 +72,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
               ),
               child: Text(
                 'Đăng nhập',
-                style: TextStyle(
+                style: GoogleFonts.nunito(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

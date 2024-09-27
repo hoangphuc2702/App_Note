@@ -3,8 +3,11 @@ import 'package:note_app/screens/add_task_list.dart';
 import 'package:note_app/screens/bottom_navigation_bar.dart';
 import 'package:note_app/screens/edit_task_list.dart';
 
+import '../model/task.dart';
+
 class TaskListScreen extends StatefulWidget {
   static const String routeName = '/tasklist';
+
 
   @override
   _TaskListScreenState createState() => _TaskListScreenState();
@@ -12,12 +15,23 @@ class TaskListScreen extends StatefulWidget {
 
 class _TaskListScreenState extends State<TaskListScreen> {
   List<Task> tasks = [
-    Task(title: 'Công việc 1', time: '09:00 AM'),
-    Task(title: 'Công việc 2', time: '10:30 AM'),
+    Task(
+      content: 'Công việc 1',
+      date: DateTime.parse('2024-09-30'),
+      time: '09:00 AM',
+      location: 'Offline',
+      host: [],
+    ),
+    Task(
+      content: 'Công việc 2',
+      date: DateTime.parse('2024-10-29'),
+      time: '09:00 AM',
+      location: 'Online',
+      host: [],
+    ),
   ];
 
   final TextEditingController _taskController = TextEditingController();
-
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -86,7 +100,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      tasks[index].title,
+                                      tasks[index].content, // Sửa thành `content` thay vì `title`
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -137,12 +151,4 @@ class _TaskListScreenState extends State<TaskListScreen> {
       ),
     );
   }
-}
-
-class Task {
-  String title;
-  String time;
-  bool isStarred;
-
-  Task({required this.title, required this.time, this.isStarred = false});
 }
