@@ -47,7 +47,6 @@ class LoginScreen extends StatelessWidget {
               obscureText: true,
             ),
             SizedBox(height: 20),
-
             // Nút Đăng nhập
             ElevatedButton(
               onPressed: () {
@@ -59,7 +58,6 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-
             // Đăng nhập bằng tài khoản sinh viên (SSO)
             OutlinedButton.icon(
               onPressed: () {
