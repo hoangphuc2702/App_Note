@@ -2,6 +2,7 @@ import 'package:note_app/screens/add_task_list.dart';
 import 'package:note_app/screens/edit_task_list.dart';
 import 'package:note_app/screens/signin_screens.dart';
 import 'package:flutter/material.dart';
+import 'package:note_app/screens/splash_screen.dart';
 import 'package:note_app/screens/task_list.dart';
 
 // Giả sử đây là màn hình Welcome
@@ -21,8 +22,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'App Note',
-      home: WelcomeScreens(),
+      home: SplashScreen(),
       routes: {
+        SplashScreen.routeName: (context) => SplashScreen(),
         WelcomeScreens.routeName: (context) => WelcomeScreens(),
         LoginScreen.routeName: (context) => LoginScreen(),
         TaskListScreen.routeName: (context) => TaskListScreen(),
