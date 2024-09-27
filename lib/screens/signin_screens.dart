@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/screens/home_screen.dart';
 import 'package:note_app/screens/task_list.dart';
 
 import '../data/api.dart';
@@ -29,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (res == "true") {
       // Nếu đăng nhập thành công, chuyển đến TaskListScreen
-      Navigator.pushNamed(context, TaskListScreen.routeName);
+      Navigator.pushNamed(context, HomeScreen.routeName);
     } else {
       _showAddProgramFailDialog("Login fail", res);
     }
