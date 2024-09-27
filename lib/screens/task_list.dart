@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/screens/add_task_list.dart';
-import 'package:note_app/screens/bottom_navigation_bar.dart';
 import 'package:note_app/screens/edit_task_list.dart';
 
 import '../model/task.dart';
@@ -32,14 +31,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
   ];
 
   final TextEditingController _taskController = TextEditingController();
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      // Bạn có thể điều hướng đến các màn hình khác tại đây
-    });
-  }
 
   void _navigateToAddTask() {
     Navigator.pushNamed(context, AddTaskListScreen.routeName);
@@ -52,20 +43,20 @@ class _TaskListScreenState extends State<TaskListScreen> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
+          // backgroundColor: Colors.white,
           title: Container(
             alignment: Alignment.center,
             child: Text(
               'Danh sách công việc',
-              style: TextStyle(color: Colors.black),
+              // style: TextStyle(color: Colors.black),
             ),
           ),
         ),
         body: Container(
-          color: Colors.white,
+          // color: Colors.white,
           child: Column(
             children: [
               Expanded(
@@ -89,7 +80,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                       child: Card(
                         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         elevation: 3,
-                        color: Colors.white,
+                        // color: Colors.white,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10.0),
                           child: Row(
@@ -109,7 +100,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                     SizedBox(height: 3),
                                     Text(
                                       tasks[index].time,
-                                      style: TextStyle(color: Colors.grey),
+                                      // style: TextStyle(color: Colors.grey),
                                     ),
                                   ],
                                 ),
@@ -140,13 +131,9 @@ class _TaskListScreenState extends State<TaskListScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: _navigateToAddTask,
           child: Icon(Icons.add),
-          backgroundColor: Colors.white,
+          // backgroundColor: Colors.white,
           tooltip: 'Thêm công việc',
           shape: CircleBorder(),
-        ),
-        bottomNavigationBar: CustomBottomNavigationBar(
-          selectedIndex: _selectedIndex,
-          onItemTapped: _onItemTapped,
         ),
       ),
     );
