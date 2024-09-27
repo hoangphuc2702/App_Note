@@ -1,6 +1,8 @@
-import 'package:note_app/screens/home_screens.dart';
+import 'package:note_app/screens/add_task_list.dart';
+import 'package:note_app/screens/edit_task_list.dart';
 import 'package:note_app/screens/signin_screens.dart';
 import 'package:flutter/material.dart';
+import 'package:note_app/screens/task_list.dart';
 
 // Giả sử đây là màn hình Welcome
 import 'package:note_app/screens/welcome_screens.dart';
@@ -20,11 +22,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'App Note',
       home: WelcomeScreens(),
-      // initialRoute: Welcome_Screens.routeName, // Nếu bạn muốn sử dụng initialRoute, đảm bảo routeName có giá trị phù hợp
       routes: {
         WelcomeScreens.routeName: (context) => WelcomeScreens(),
         LoginScreen.routeName: (context) => LoginScreen(),
         TaskListScreen.routeName: (context) => TaskListScreen(),
+        AddTaskListScreen.routeName: (context) => AddTaskListScreen(),
       },
     );
   }

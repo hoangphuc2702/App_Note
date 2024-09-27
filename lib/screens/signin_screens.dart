@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/screens/home_screens.dart';
+import 'package:note_app/screens/task_list.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
@@ -28,55 +28,81 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 50),
 
             // Trường Email
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Email',
-                prefixIcon: Icon(Icons.email),
+            SizedBox(
+              width: 300, // Giới hạn chiều rộng
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                ),
+                keyboardType: TextInputType.emailAddress,
               ),
-              keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(height: 20),
 
             // Trường Mật khẩu
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Mật khẩu',
-                prefixIcon: Icon(Icons.lock),
+            SizedBox(
+              width: 300, // Giới hạn chiều rộng
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Mật khẩu',
+                  prefixIcon: Icon(Icons.lock),
+                ),
+                obscureText: true,
               ),
-              obscureText: true,
             ),
             SizedBox(height: 20),
-            // Nút Đăng nhập
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, TaskListScreen.routeName);
-              },
-              child: Text('Đăng nhập'),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 15),
+            SizedBox(
+              width: 250, // Giới hạn chiều rộng
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, TaskListScreen.routeName);
+                },
+                child: Text(
+                  'Đăng nhập',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  backgroundColor: Colors.deepPurple,
+                ),
               ),
             ),
             SizedBox(height: 10),
-            // Đăng nhập bằng tài khoản sinh viên (SSO)
-            OutlinedButton.icon(
-              onPressed: () {
-                // Xử lý đăng nhập SSO
-              },
-              icon: Icon(Icons.school),
-              label: Text('Đăng nhập bằng tài khoản sinh viên'),
-              style: OutlinedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                backgroundColor: Colors.blueAccent,
+            SizedBox(
+              width: 250,
+              child: OutlinedButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.school),
+                label: Text(
+                  'Đăng nhập bằng tài khoản sinh viên',
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  backgroundColor: Colors.white,
+                ),
               ),
             ),
             SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                // Chuyển hướng đến trang đăng ký
-              },
-              child: Text('Chưa có tài khoản? Đăng ký'),
+            Column(
+                  children: [
+                    Text.rich(TextSpan(
+                      text: 'Chưa có tài khoản? ',
+                      style: TextStyle(color: Colors.black),
+                      children: [
+                        TextSpan(
+                          text: 'Đăng ký',
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
             ),
           ],
         ),
