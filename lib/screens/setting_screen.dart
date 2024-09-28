@@ -24,11 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Container(
-          alignment: Alignment.center,
-          child: Text('Setting'),
-        ),
+        title: Text('Settings'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -51,15 +47,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: Text('Customizable UI'),
               subtitle: Text('Change UI preferences'),
               onTap: () {
+                // Chuyển hướng đến trang tùy chỉnh UI nếu cần
                 Navigator.pushNamed(context, '/customizeUI');
-              },
-            ),
-
-            ListTile(
-              title: Text('Task Statistics'),
-              subtitle: Text('Change Task Statistics'),
-              onTap: () {
-                Navigator.pushNamed(context, '/taskStatistics');
               },
             ),
 
