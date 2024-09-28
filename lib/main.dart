@@ -8,6 +8,7 @@ import 'package:note_app/screens/signin_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:note_app/screens/splash_screen.dart';
 import 'package:note_app/screens/task_list.dart';
+import 'package:note_app/screens/task_statistics_screen.dart';
 
 // Giả sử đây là màn hình Welcome
 import 'package:note_app/screens/welcome_screens.dart';
@@ -45,6 +46,8 @@ class MyApp extends StatelessWidget {
         SettingsScreen.routeName: (context) => SettingsScreen(),
         HomeScreen.routeName: (context) => HomeScreen(),
         CustomUiScreen.routeName: (context) => CustomUiScreen(),
+        TaskStatisticsScreen.routeName: (context) => TaskStatisticsScreen(),
+
       },
     );
   }
