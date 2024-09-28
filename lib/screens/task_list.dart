@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/screens/add_task_list.dart';
 import 'package:note_app/screens/edit_task_list.dart';
 
+import '../data/api.dart';
 import '../model/task.dart';
 
 class TaskListScreen extends StatefulWidget {
@@ -13,27 +14,25 @@ class TaskListScreen extends StatefulWidget {
 }
 
 class _TaskListScreenState extends State<TaskListScreen> {
-  List<Task> tasks = [
-    Task(
-      content: 'Công việc 1',
-      date: DateTime.parse('2024-09-30'),
-      time: '09:00 AM',
-      location: 'Offline',
-      host: [],
-    ),
-    Task(
-      content: 'Công việc 2',
-      date: DateTime.parse('2024-10-29'),
-      time: '09:00 AM',
-      location: 'Online',
-      host: [],
-    ),
-  ];
+  List<Task> listTask = <Task>[];
 
   final TextEditingController _taskController = TextEditingController();
 
+  API api = API();
+
   void _navigateToAddTask() {
     Navigator.pushNamed(context, AddTaskListScreen.routeName);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getListTask();
+  }
+
+  Future<void> _getListTask() async {
+    listTask = await api.getTasks();
+    setState(() {});
   }
 
   @override
@@ -61,18 +60,18 @@ class _TaskListScreenState extends State<TaskListScreen> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: tasks.length,
+                  itemCount: listTask.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => EditTaskListScreen(task: tasks[index]),
+                            builder: (context) => EditTaskListScreen(task: listTask[index]),
                           ),
                         ).then((updatedTask) {
                           if (updatedTask != null) {
                             setState(() {
-                              tasks[index] = updatedTask;
+                              listTask[index] = updatedTask;
                             });
                           }
                         });
@@ -91,7 +90,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      tasks[index].content, // Sửa thành `content` thay vì `title`
+                                      listTask[index].content,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16,
@@ -99,7 +98,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
                                     ),
                                     SizedBox(height: 3),
                                     Text(
-                                      tasks[index].time,
+                                      listTask[index].time,
                                       // style: TextStyle(color: Colors.grey),
                                     ),
                                   ],
@@ -108,12 +107,12 @@ class _TaskListScreenState extends State<TaskListScreen> {
                               // Biểu tượng hình ngôi sao
                               IconButton(
                                 icon: Icon(
-                                  tasks[index].isStarred ? Icons.star : Icons.star_border,
-                                  color: tasks[index].isStarred ? Colors.amber[400] : Colors.grey,
+                                  listTask[index].isStarred ? Icons.star : Icons.star_border,
+                                  color: listTask[index].isStarred ? Colors.amber[400] : Colors.grey,
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    tasks[index].isStarred = !tasks[index].isStarred; // Chuyển đổi trạng thái
+                                    listTask[index].isStarred = !listTask[index].isStarred; // Chuyển đổi trạng thái
                                   });
                                 },
                               ),

@@ -57,7 +57,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
                 style: GoogleFonts.nunito(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  // color: Colors.white,
+                  color: Colors.white,
                 ),
               ),
             ),
