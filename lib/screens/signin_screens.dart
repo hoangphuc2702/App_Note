@@ -22,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _passwordController.text;
 
     if (email.isEmpty || password.isEmpty) {
-      _showAddProgramFailDialog("Login fail", "All fields are required.");
+      _showFailDialog("Login fail", "All fields are required.");
       return;
     }
 
@@ -32,11 +32,11 @@ class _LoginScreenState extends State<LoginScreen> {
       // Nếu đăng nhập thành công, chuyển đến TaskListScreen
       Navigator.pushNamed(context, HomeScreen.routeName);
     } else {
-      _showAddProgramFailDialog("Login fail", res);
+      _showFailDialog("Login fail", res);
     }
   }
 
-  void _showAddProgramFailDialog(String title, String message) {
+  void _showFailDialog(String title, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -78,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(height: 50),
-
             // Trường Email
             SizedBox(
               width: 300, // Giới hạn chiều rộng
@@ -119,6 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 15),
                   backgroundColor: Colors.deepPurple,
+                  foregroundColor: Colors.white, // Text color
                 ),
               ),
             ),
