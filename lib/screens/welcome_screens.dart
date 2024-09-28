@@ -15,7 +15,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Màu nền trắng nhẹ nhàng
+      // backgroundColor: Colors.white, // Màu nền trắng nhẹ nhàng
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +35,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
               'Quản lý thời gian và nhiệm vụ một cách hiệu quả',
               style: GoogleFonts.nunito(
                 fontSize: 24,
-                color: Colors.grey.shade700,
+                // color: Colors.grey.shade700,
               ),
               textAlign: TextAlign.center,
             ),
@@ -57,7 +57,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
                 style: GoogleFonts.nunito(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  // color: Colors.white,
                 ),
               ),
             ),

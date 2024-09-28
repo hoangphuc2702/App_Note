@@ -70,10 +70,10 @@ class _EditTaskListScreenState extends State<EditTaskListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Chỉnh sửa công việc'),
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
@@ -166,7 +166,10 @@ class _EditTaskListScreenState extends State<EditTaskListScreen> {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: Text('Lưu', style: TextStyle(color: Colors.white)),
+              child: Text(
+                  'Lưu',
+                  // style: TextStyle(color: Colors.white)
+              ),
             ),
           ],
         ),

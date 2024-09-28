@@ -63,10 +63,10 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Thêm Công Việc Mới'),
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
@@ -165,7 +165,10 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: Text('Lưu', style: TextStyle(color: Colors.white)),
+                child: Text(
+                    'Lưu',
+                    // style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
 
