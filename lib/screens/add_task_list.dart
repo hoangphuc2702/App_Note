@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:note_app/screens/home_screen.dart';
+
+import '../data/api.dart';
 
 class AddTaskListScreen extends StatefulWidget {
   static const String routeName = '/addtask';
@@ -9,25 +13,45 @@ class AddTaskListScreen extends StatefulWidget {
 
 class _AddTaskListScreenState extends State<AddTaskListScreen> {
   final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _taskContentController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
-  String? _selectedLeader;
-  List<String> _leaders = ['Thanh Ngân', 'Hữu Nghĩa', 'Nguyễn Văn A'];
-  String? _selectedStatus;
+  List<String> _selectedHosts = [];
+  List<String> _hosts = [];
+  List<String> _filteredHosts = [];
   List<String> _statuses = ['Tạo mới', 'Đang thực hiện', 'Thành công', 'Kết thúc'];
 
   DateTime? _selectedDate;
 
+  API api = API();
+
+  @override
+  void initState() {
+    super.initState();
+    _getListNameUser();
+
+    _searchController.addListener(() {
+      setState(() {
+        // Lọc danh sách chủ trì theo từ khóa tìm kiếm
+        _filteredHosts = _hosts
+            .where((host) =>
+            host.toLowerCase().contains(_searchController.text.toLowerCase()))
+            .toList();
+      });
+    });
+  }
+
   @override
   void dispose() {
     _dateController.dispose();
-    _taskContentController.dispose();
+    _contentController.dispose();
     _timeController.dispose();
     _locationController.dispose();
     _noteController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -46,27 +70,66 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
     }
   }
 
-  void _addTask() {
-    if (_taskContentController.text.isNotEmpty &&
-        _selectedDate != null &&
-        _selectedLeader != null &&
-        _selectedStatus != null) {
-      Navigator.pop(context);
+  Future<void> _getListNameUser() async {
+    _hosts = await api.getNameUsers();
+    setState(() {
+      _filteredHosts = _hosts;
+    });
+  }
+
+  Future<void> _addTask() async {
+    String date = DateFormat('yyyy-MM-dd').format(_selectedDate!);
+    final content = _contentController.text;
+    final time = _timeController.text;
+    final location = _locationController.text;
+    final note = _noteController.text;
+
+    if (content.isEmpty || date.isEmpty || time.isEmpty || location.isEmpty) {
+      _showFailDialog("Add task fail", "All fields are required.");
+      return;
+    }
+
+    final res = await api.addTask(content, date, time, location, _selectedHosts, note, _statuses[0], '');
+
+    if (res == "true") {
+      // Nếu đăng nhập thành công, chuyển đến TaskListScreen
+      Navigator.pushNamed(context, HomeScreen.routeName);
     } else {
       // Hiển thị thông báo nếu thiếu thông tin
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Vui lòng điền đầy đủ thông tin!')),
       );
+      _showFailDialog("Add task fail", res);
     }
+  }
+
+  void _showFailDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Thêm Công Việc Mới'),
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
@@ -74,14 +137,14 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
-              controller: _taskContentController,
+              controller: _contentController,
               decoration: InputDecoration(
                 labelText: 'Nội dung công việc',
-                border: InputBorder.none, // Loại bỏ border
+                border: InputBorder.none,
               ),
               maxLines: 5,
             ),
-            SizedBox(height: 16), // Space between fields
+            SizedBox(height: 16),
             TextField(
               controller: _dateController,
               decoration: InputDecoration(
@@ -91,7 +154,7 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
                   onPressed: () => _selectDate(context),
                 ),
               ),
-              readOnly: true, // Không cho phép nhập trực tiếp
+              readOnly: true,
             ),
             SizedBox(height: 16),
             TextField(
@@ -101,10 +164,9 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
               onTap: () async {
                 TimeOfDay? pickedTime = await showTimePicker(
                   context: context,
-                  initialTime: TimeOfDay.now(), // Thời gian mặc định là thời gian hiện tại
+                  initialTime: TimeOfDay.now(),
                 );
                 if (pickedTime != null) {
-                  // Cập nhật trường thời gian với giá trị đã chọn
                   setState(() {
                     _timeController.text = pickedTime.format(context);
                   });
@@ -117,58 +179,60 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
               decoration: InputDecoration(labelText: 'Địa điểm'),
             ),
             SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: _selectedLeader,
-              hint: Text('Chọn chủ trì'),
-              items: _leaders.map((String leader) {
-                return DropdownMenuItem<String>(
-                  value: leader,
-                  child: Text(leader),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedLeader = newValue;
-                });
-              },
+            // Thêm trường tìm kiếm cho danh sách chủ trì
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(labelText: 'Tìm chủ trì'),
             ),
-            SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: _selectedStatus,
-              hint: Text('Trạng thái công việc'),
-              items: _statuses.map((String status) {
-                return DropdownMenuItem<String>(
-                  value: status,
-                  child: Text(status),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedStatus = newValue;
-                });
-              },
+            SizedBox(height: 8),
+            // Hiển thị danh sách chủ trì đã lọc
+            SizedBox(
+              height: 120, // Set a fixed height for the scrollable area
+              child: SingleChildScrollView(
+                child: Column(
+                  children: _filteredHosts.map((String host) {
+                    return CheckboxListTile(
+                      title: Text(host),
+                      value: _selectedHosts.contains(host),
+                      onChanged: (bool? isChecked) {
+                        setState(() {
+                          if (isChecked != null) {
+                            if (isChecked) {
+                              _selectedHosts.add(host);
+                            } else {
+                              _selectedHosts.remove(host);
+                            }
+                          }
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
-            SizedBox(height: 16),
             TextField(
               controller: _noteController,
               decoration: InputDecoration(labelText: 'Ghi chú'),
             ),
             SizedBox(height: 20),
-            SizedBox(
-              width: 50,
-              child: ElevatedButton(
-                onPressed: _addTask,
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  backgroundColor: Colors.deepPurple,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
+            ElevatedButton(
+              onPressed: _addTask,
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                backgroundColor: Colors.deepPurple,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
                 ),
-                child: Text('Lưu', style: TextStyle(color: Colors.white)),
+              ),
+              child: Text(
+                'Lưu',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
             ),
-
           ],
         ),
       ),

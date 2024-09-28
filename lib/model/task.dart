@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class Task {
-  final int? id;
+  final String? id;
   String content;
   DateTime date;
   String time;

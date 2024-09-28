@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../model/data_local/user_reference.dart';
 import '../model/task.dart';
+import '../model/user.dart';
 
 
 class API {
@@ -23,6 +24,27 @@ class API {
       if(res.statusCode == 200){
         final List<dynamic> jsonData = json.decode(res.body);
         data = jsonData.map((json) => Task.fromJson(json)).toList();
+      }
+      return data;
+    } catch (ex) {
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getNameUsers() async {
+    List<String> data = [];
+
+    final uri = Uri.parse('$baseUrl/user/getUsers');
+    try {
+      final res = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+      );
+      if(res.statusCode == 200){
+        final List<dynamic> jsonData = json.decode(res.body);
+        data = jsonData.map((json) => User.fromJson(json).name).toList();
       }
       return data;
     } catch (ex) {
@@ -51,6 +73,28 @@ class API {
       rethrow;
     }
   }
+
+  // Future<Task> getUserByName(String name) async {
+  //   Task? data;
+  //
+  //   final uri = Uri.parse('$baseUrl/task/searchTask/$name');
+  //
+  //   try {
+  //     final res = await http.get(
+  //       uri,
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json; charset=UTF-8'
+  //       },
+  //     );
+  //     if(res.statusCode == 200){
+  //       final Map<String, dynamic> jsonData = json.decode(res.body);
+  //       data = Task.fromJson(jsonData);
+  //     }
+  //     return data!;
+  //   } catch (ex) {
+  //     rethrow;
+  //   }
+  // }
 
   Future<String> addTask(
       String content,
@@ -98,7 +142,7 @@ class API {
     }
   }
 
-  Future<String> updateTask(int taskId,
+  Future<String> updateTask(String taskId,
       String content,
       String date,
       String time,
@@ -143,7 +187,7 @@ class API {
     }
   }
 
-  Future<String> deleteTask(int taskId) async {
+  Future<String> deleteTask(String taskId) async {
     final uri = Uri.parse('$baseUrl/task/deleteTask/$taskId');
 
     try {
