@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences
+import '../resources/dimens.dart';
 
 class CustomUiScreen extends StatefulWidget {
   static const String routeName = '/customizeUI';
@@ -9,10 +11,31 @@ class CustomUiScreen extends StatefulWidget {
 }
 
 class _CustomUiScreenState extends State<CustomUiScreen> {
-  Color _primaryColor = Colors.blue;
-  String _fontFamily = 'Roboto';
-  double _fontSize = 16.0;
-  bool _isDarkMode = false;
+  Color _primaryColor = Color(Dimens.ColorValue);
+  String _fontFamily = Dimens.GoogleFont;
+  double _fontSize = Dimens.FontSize;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences(); // Load saved preferences when the screen initializes
+  }
+
+  Future<void> _loadPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _primaryColor = Color(prefs.getInt('primaryColor') ?? Dimens.ColorValue);
+      _fontFamily = prefs.getString('fontFamily') ?? Dimens.GoogleFont;
+      _fontSize = prefs.getDouble('fontSize') ?? Dimens.FontSize;
+    });
+  }
+
+  Future<void> _savePreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('primaryColor', _primaryColor.value);
+    await prefs.setString('fontFamily', _fontFamily);
+    await prefs.setDouble('fontSize', _fontSize);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +60,21 @@ class _CustomUiScreenState extends State<CustomUiScreen> {
             _buildFontSizePicker(),
             SizedBox(height: 40),
             _buildPreview(),
+            SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: () {
+                _savePreferences(); // Save preferences when the button is pressed
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Preferences Saved!')),
+                );
+              },
+              child: Text('Lưu', style: GoogleFonts.getFont(_fontFamily)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _primaryColor,
+                minimumSize: Size(100, 25), // Set minimum size (width, height)
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30), // Add padding
+              ),
+            ),
           ],
         ),
       ),
@@ -59,7 +97,12 @@ class _CustomUiScreenState extends State<CustomUiScreen> {
             Colors.purple,
           ].map((Color color) {
             return GestureDetector(
-              onTap: () => setState(() => _primaryColor = color),
+              onTap: () {
+                setState(() {
+                  _primaryColor = color;
+                  Dimens.updatePrimaryColor(color.value);
+                });
+              },
               child: Container(
                 width: 40,
                 height: 40,
@@ -86,7 +129,10 @@ class _CustomUiScreenState extends State<CustomUiScreen> {
           value: _fontFamily,
           onChanged: (String? newValue) {
             if (newValue != null) {
-              setState(() => _fontFamily = newValue);
+              setState(() {
+                _fontFamily = newValue;
+                Dimens.updateGoogleFont(newValue);
+              });
             }
           },
           items: ['Roboto', 'Lato', 'Open Sans', 'Montserrat']
@@ -110,11 +156,14 @@ class _CustomUiScreenState extends State<CustomUiScreen> {
         Slider(
           value: _fontSize,
           min: 12,
-          max: 24,
+          max: 30,
           divisions: 12,
           label: _fontSize.round().toString(),
           onChanged: (double value) {
-            setState(() => _fontSize = value);
+            setState(() {
+              _fontSize = value;
+              Dimens.updateFontSize(value);
+            });
           },
         ),
       ],
@@ -125,7 +174,7 @@ class _CustomUiScreenState extends State<CustomUiScreen> {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: _isDarkMode ? Colors.grey[800] : Colors.white,
+        color: Colors.white,
         border: Border.all(color: _primaryColor),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -138,7 +187,7 @@ class _CustomUiScreenState extends State<CustomUiScreen> {
               _fontFamily,
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: _isDarkMode ? Colors.white : Colors.black,
+              color: Colors.black,
             ),
           ),
           SizedBox(height: 10),
@@ -147,7 +196,7 @@ class _CustomUiScreenState extends State<CustomUiScreen> {
             style: GoogleFonts.getFont(
               _fontFamily,
               fontSize: _fontSize,
-              color: _isDarkMode ? Colors.white : Colors.black,
+              color: Colors.black,
             ),
           ),
           SizedBox(height: 10),

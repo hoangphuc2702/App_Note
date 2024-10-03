@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../model/data_local/user_reference.dart';
-import '../provider/theme_provider.dart'; // Nơi chứa theme management
+import '../provider/theme_provider.dart';
+import '../resources/dimens.dart'; // Nơi chứa theme management
 
 class SettingsScreen extends StatefulWidget {
   static const String routeName = '/settings';
@@ -25,6 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Color(Dimens.ColorValue),
         title: Container(
           alignment: Alignment.center,
           child: Text('Setting'),

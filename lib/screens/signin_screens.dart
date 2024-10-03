@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -130,11 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 icon: Icon(Icons.school),
                 label: Text(
                   'Đăng nhập bằng tài khoản sinh viên',
-                  style: TextStyle(color: Colors.black),
                 ),
                 style: OutlinedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 15),
-                  backgroundColor: Colors.white,
                 ),
               ),
             ),
@@ -143,7 +141,6 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 Text.rich(TextSpan(
                   text: 'Chưa có tài khoản? ',
-                  style: TextStyle(color: Colors.black),
                   children: [
                     TextSpan(
                       text: 'Đăng ký',
