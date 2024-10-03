@@ -8,7 +8,7 @@ import '../model/user.dart';
 
 
 class API {
-  String baseUrl = "http://192.168.100.55:3000";
+  String baseUrl = "http://192.168.12.104:3000";
 
   Future<List<Task>> getTasks() async {
     List<Task> data = [];
@@ -55,7 +55,7 @@ class API {
   Future<Task> getTaskByName(String name) async {
     Task? data;
 
-    final uri = Uri.parse('$baseUrl/task/searchTask/$name');
+    final uri = Uri.parse('$baseUrl/task/searchTaskbyname/$name');
 
     try {
       final res = await http.get(
@@ -69,6 +69,28 @@ class API {
         data = Task.fromJson(jsonData);
       }
       return data!;
+    } catch (ex) {
+      rethrow;
+    }
+  }
+
+  Future<List<Task>> getTaskByDate(String date) async {
+    List<Task> data = [];
+
+    final uri = Uri.parse('$baseUrl/task/searchTaskbydate/$date');
+    try {
+      final res = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(res.body);
+        data = jsonData.map((json) => Task.fromJson(json)).toList();
+      }
+      return data;
     } catch (ex) {
       rethrow;
     }

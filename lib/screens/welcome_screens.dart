@@ -15,7 +15,7 @@ class _WelcomeScreensState extends State<WelcomeScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Màu nền trắng nhẹ nhàng
+      // backgroundColor: Colors.white, // Màu nền trắng nhẹ nhàng
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

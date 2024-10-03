@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:note_app/resources/dimens.dart';
 import 'package:note_app/screens/home_screen.dart';
 
 import '../data/api.dart';
@@ -95,10 +96,6 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
       // Nếu đăng nhập thành công, chuyển đến TaskListScreen
       Navigator.pushNamed(context, HomeScreen.routeName);
     } else {
-      // Hiển thị thông báo nếu thiếu thông tin
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Vui lòng điền đầy đủ thông tin!')),
-      );
       _showFailDialog("Add task fail", res);
     }
   }
@@ -129,7 +126,7 @@ class _AddTaskListScreenState extends State<AddTaskListScreen> {
       // backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Thêm Công Việc Mới'),
-        // backgroundColor: Colors.white,
+        backgroundColor: Color(Dimens.ColorValue),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
