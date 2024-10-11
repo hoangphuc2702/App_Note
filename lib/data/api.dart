@@ -8,7 +8,7 @@ import '../model/user.dart';
 
 
 class API {
-  String baseUrl = "http://192.168.12.104:3000";
+  String baseUrl = "http://192.168.100.69:3000";
 
   Future<List<Task>> getTasks() async {
     List<Task> data = [];
@@ -44,7 +44,7 @@ class API {
       );
       if(res.statusCode == 200){
         final List<dynamic> jsonData = json.decode(res.body);
-        data = jsonData.map((json) => User.fromJson(json).name).toList();
+        data = jsonData.map((json) => userModel.fromJson(json).name).toList();
       }
       return data;
     } catch (ex) {

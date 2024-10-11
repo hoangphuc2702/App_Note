@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "544628856592",
+    "project_id": "flutter-signi",
+    "storage_bucket": "flutter-signi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544628856592:android:f613cdad90dc9151bd7795",
+        "android_client_info": {
+          "package_name": "com.example.note_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544628856592-43pkht710u17s65oibggdrlql45t3c9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.note_app",
+            "certificate_hash": "76a31872230770d92472efa82ac4c8e198deabcf"
+          }
+        },
+        {
+          "client_id": "544628856592-tpnp50mdherhh9jlke0r9818rf77tdo9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG4XeLaqsKPnTZq41PB74-vwb_Keug7JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544628856592-tpnp50mdherhh9jlke0r9818rf77tdo9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

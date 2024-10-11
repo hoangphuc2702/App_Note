@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:note_app/provider/notification_provider.dart';
 import 'package:note_app/provider/theme_provider.dart';
 import 'package:note_app/screens/add_task_list.dart';
 import 'package:note_app/screens/custom_UI_screen.dart';
@@ -14,13 +16,20 @@ import 'package:note_app/screens/task_statistics_screen.dart';
 import 'package:note_app/screens/welcome_screens.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()), // Thêm NotificationProvider
+      ],
       child: MyApp(),
     ),
   );
+
 }
 
 class MyApp extends StatelessWidget {
