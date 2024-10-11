@@ -1,7 +1,7 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    id "com.google.gms.google-services"  // Thêm dòng này
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -11,6 +11,16 @@ if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader("UTF-8") { reader ->
         localProperties.load(reader)
     }
+}
+
+def minSdkVersion  = localProperties.getProperty("flutter.minSdkVersion ")
+if (minSdkVersion  == null) {
+    minSdkVersion  = "23"
+}
+def targetSdkVersion =
+        localProperties.getProperty("flutter.targetSdkVersion")
+if (targetSdkVersion == null) {
+    targetSdkVersion = "33"
 }
 
 def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
@@ -38,8 +48,8 @@ android {
         applicationId = "com.example.note_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = minSdkVersion.toInteger()
+        targetSdk = targetSdkVersion.toInteger()
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
@@ -56,3 +66,8 @@ android {
 flutter {
     source = "../.."
 }
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:32.7.4')
+    implementation 'com.google.firebase:firebase-analytics'
+}
+

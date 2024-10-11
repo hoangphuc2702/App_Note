@@ -1,11 +1,11 @@
-class User {
+class userModel {
   final String? id;
   String name;
   String mail;
   String pass;
   String urlImage;
 
-  User({
+  userModel({
     this.id,
     required this.name,
     required this.mail,
@@ -13,25 +13,33 @@ class User {
     required this.urlImage,
   });
 
-  // Tạo đối tượng User từ JSON
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['_id'],
-      name: json['name'],
-      mail: json['mail'],
-      pass: json['pass'],
-      urlImage: json['urlImage'],
-    );
-  }
-
-  // Chuyển đối tượng User thành JSON
-  Map<String, dynamic> toJson() {
+  // Chuyển đổi userModel thành Map
+  Map<String, dynamic> toMap() {
     return {
-      '_id': id,
+      'id': id,
       'name': name,
       'mail': mail,
       'pass': pass,
       'urlImage': urlImage,
     };
   }
+
+  // Tạo userModel từ Map
+  factory userModel.fromMap(Map<String, dynamic> map) {
+    return userModel(
+      id: map['id'],
+      name: map['name'] ?? '',
+      mail: map['mail'] ?? '',
+      pass: map['pass'] ?? '',
+      urlImage: map['urlImage'] ?? '',
+    );
+  }
+
+  // Tạo userModel từ JSON
+  factory userModel.fromJson(Map<String, dynamic> json) {
+    return userModel.fromMap(json);
+  }
+
+  // Chuyển đổi userModel thành JSON
+  Map<String, dynamic> toJson() => toMap();
 }
